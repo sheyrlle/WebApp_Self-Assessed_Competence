@@ -1,76 +1,51 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import os
 import joblib
-import gdown
+import matplotlib.pyplot as plt
 from datetime import datetime
+import os
+import gdown
+import pickle
 
-# -----------------------------
-# File paths & Google Drive IDs
-# -----------------------------
 VECTOR_PATH = "vectorizer.pkl"
 MODEL_PATH = "rf_model.pkl"
 
 VECTOR_FILE_ID = "1PdTdJaCyULawJ_Nvo22Wy2t7hYe5Zmns"
+# https://drive.google.com/file/d/1PdTdJaCyULawJ_Nvo22Wy2t7hYe5Zmns/view?usp=drive_link
 MODEL_FILE_ID = "10YDoNv8PAYoy-Pp5Jp2c4B9653yny3-a"
+# https://drive.google.com/file/d/10YDoNv8PAYoy-Pp5Jp2c4B9653yny3-a/view?usp=drive_link
 
+# Convert to direct download URLs
 VECTOR_URL = f"https://drive.google.com/uc?id={VECTOR_FILE_ID}"
 MODEL_URL = f"https://drive.google.com/uc?id={MODEL_FILE_ID}"
 
-# -----------------------------
-# Download files if missing
-# -----------------------------
-if not os.path.exists(VECTOR_PATH):
-    gdown.download(VECTOR_URL, VECTOR_PATH, quiet=False)
+gdown.download(VECTOR_URL, "C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\vectorizer.pkl", quiet=False)
+gdown.download(MODEL_URL, "C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\rf_model.pkl", quiet=False)
+    
+# model
+model = joblib.load("rf_model.pkl")
+vectorizer = joblib.load("vectorizer.pkl")
 
-if not os.path.exists(MODEL_PATH):
-    gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
-
-# -----------------------------
-# Load vectorizer
-# -----------------------------
-try:
-    vectorizer = joblib.load(VECTOR_PATH)
-    if not hasattr(vectorizer, "transform"):
-        st.error("Loaded vectorizer is not a vectorizer object. Check your file.")
-        st.stop()
-except Exception as e:
-    st.error(f"Error loading vectorizer: {e}")
-    st.stop()
-
-# -----------------------------
-# Load model
-# -----------------------------
-try:
-    model = joblib.load(MODEL_PATH)
-    if not hasattr(model, "predict"):
-        st.error("Loaded model is not a predictive model. Check your file.")
-        st.stop()
-except Exception as e:
-    st.error(f"Error loading model: {e}")
-    st.stop()
-
-# -----------------------------
-# Streamlit page config
-# -----------------------------
-st.set_page_config(page_title="Self-Assessed Competence Analyzer", layout="wide")
-
-# -----------------------------
-# History file
-# -----------------------------
+st.set_page_config(page_title="Sentiment Analysis", layout="wide")
+        
+# for history storing
 history_file = "sentiment_history.csv"
+
+# initialize file if not exists
 if not os.path.exists(history_file):
     df_init = pd.DataFrame(columns=["Date", "Time", "Response", "Classification"])
     df_init.to_csv(history_file, index=False)
 
-# -----------------------------
-# Sidebar
-# -----------------------------
 with st.sidebar:
-    st.write("Analyze students’ self-assessed competence in Python, Java, and C.")
+    # st.title("Controls")
+    st.write("The app analyzes students’ competence in Python, Java, and C programming based on English-language sentiments.")
+
+    # nav
+    # st.write("The app performs sentiment analysis on the competence of students in their Python, Java, and C programming. Only English sentiments are supported.")
     page = st.radio("Go to", ["Home Page", "History"])
     
+
+    # delete button
     if st.button("Delete History"):
         if os.path.exists(history_file):
             os.remove(history_file)
@@ -78,9 +53,7 @@ with st.sidebar:
         else:
             st.info("No history to delete.")
 
-# -----------------------------
-# Home Page
-# -----------------------------
+# home page
 if page == "Home Page":
     col1, col2 = st.columns([1, 11])
     with col1:
@@ -88,13 +61,15 @@ if page == "Home Page":
     with col2:
         st.title("Self-Assessed Competence Sentiment Analyzer")
 
+    # st.write("How do you feel about your programming skills?")
+
     comment = st.text_area("Enter your sentiments about your competence in Python, Java, and C:")
 
     if st.button("Analyze Sentiment"):
         if comment.strip() == "":
             st.warning("Please enter some text first.")
         else:
-            # Transform input and predict
+            # transform input
             comment_vector = vectorizer.transform([comment])
             sentiment = model.predict(comment_vector)[0]
 
@@ -103,7 +78,6 @@ if page == "Home Page":
 
             st.success(f"Sentiment Classification: {sentiment_label}")
 
-            # Save history
             now = datetime.now()
             new_row = pd.DataFrame({
                 "Date": [now.strftime("%Y-%m-%d")],
@@ -113,13 +87,15 @@ if page == "Home Page":
             })
             new_row.to_csv(history_file, mode='a', header=False, index=False)
 
-    # Graph summary
+    # graph - summary
     st.write("Sentiment Distribution")
+
     if os.path.exists(history_file):
         data = pd.read_csv(history_file)
         if not data.empty:
             sentiment_counts = data["Classification"].value_counts()
-            fig, ax = plt.subplots(figsize=(2.5, 1.2))
+
+            fig, ax = plt.subplots(figsize=(2.5, 1.2)) 
             ax.bar(sentiment_counts.index, sentiment_counts.values, width=0.5)
             ax.set_xlabel("")
             ax.set_ylabel("")
@@ -128,19 +104,20 @@ if page == "Home Page":
             plt.tight_layout(pad=0.2)
             st.pyplot(fig, use_container_width=False)
 
+            # total responses
             total_responses = sentiment_counts.sum()
             summary_text = " | ".join([f"{label}: {count}" for label, count in sentiment_counts.items()])
             st.caption(f"Total: {total_responses} | {summary_text}")
+
         else:
             st.info("No responses yet.")
     else:
         st.info("No responses yet.")
 
-# -----------------------------
-# History Page
-# -----------------------------
+#history page
 elif page == "History":
     st.write("History of Students' Responses")
+
     if os.path.exists(history_file):
         data = pd.read_csv(history_file)
         if not data.empty:
@@ -149,3 +126,22 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
