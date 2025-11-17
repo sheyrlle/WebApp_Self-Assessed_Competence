@@ -20,8 +20,8 @@ VECTOR_URL = f"https://drive.google.com/uc?id={VECTOR_FILE_ID}"
 MODEL_URL = f"https://drive.google.com/uc?id={MODEL_FILE_ID}"
     
 # model
-# model = joblib.load("C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\rf_model.pkl")
-# vectorizer = joblib.load("C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\vectorizer.pkl")
+ model = joblib.load("rf_model.pkl")
+ vectorizer = joblib.load("vectorizer.pkl")
 
 st.set_page_config(page_title="Sentiment Analysis", layout="wide")
         
@@ -123,6 +123,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
