@@ -104,11 +104,11 @@ if page == "Home Page":
         if not data.empty:
             sentiment_counts = data["Classification"].value_counts()
 
-            fig, ax = plt.subplots(figsize=(5, 3))
+            fig, ax = plt.subplots(figsize=(3, 2))
             ax.bar(sentiment_counts.index, sentiment_counts.values, width=0.5)
             ax.set_xlabel("")
             ax.set_ylabel("")
-            plt.xticks(rotation=0, fontsize=8)
+            plt.xticks(rotation=0, fontsize=4)
             plt.yticks(fontsize=8)
             plt.tight_layout(pad=0.2)
             st.pyplot(fig, use_container_width=False)
@@ -132,4 +132,5 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
