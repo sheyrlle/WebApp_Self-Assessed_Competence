@@ -16,6 +16,13 @@ MODEL_FILE_ID = "1PdTdJaCyULawJ_Nvo22Wy2t7hYe5Zmns"
 VECTOR_URL = f"https://drive.google.com/uc?id={VECTOR_FILE_ID}"
 MODEL_URL = f"https://drive.google.com/uc?id={MODEL_FILE_ID}"
 
+# Download if not exists
+if not os.path.exists(VECTOR_PATH):
+    gdown.download(VECTOR_URL, VECTOR_PATH, quiet=False)
+
+if not os.path.exists(MODEL_PATH):
+    gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
+
 # model
 # model = joblib.load("C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\rf_model.pkl")
 # vectorizer = joblib.load("C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\vectorizer.pkl")
@@ -120,4 +127,5 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
