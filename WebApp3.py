@@ -44,6 +44,16 @@ except Exception as e:
 
 st.set_page_config(page_title="Sentiment Analysis", layout="wide")
 
+if comment:
+    try:
+        # Transform comment using vectorizer
+        comment_vector = vectorizer.transform([comment])
+        # Predict using the model
+        prediction = model.predict(comment_vector)[0]
+        st.success(f"Prediction: {prediction}")
+    except Exception as e:
+        st.error(f"Error during prediction: {e}")
+        
 # for history storing
 history_file = "sentiment_history.csv"
 
@@ -142,6 +152,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
