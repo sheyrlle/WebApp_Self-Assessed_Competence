@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
-import pickle
+import joblib
 import gdown
 from datetime import datetime
 
@@ -31,9 +31,7 @@ if not os.path.exists(MODEL_PATH):
 # Load vectorizer
 # -----------------------------
 try:
-    with open(VECTOR_PATH, "rb") as f:
-        vectorizer = pickle.load(f)
-    # Check type
+    vectorizer = joblib.load(VECTOR_PATH)
     if not hasattr(vectorizer, "transform"):
         st.error("Loaded vectorizer is not a vectorizer object. Check your file.")
         st.stop()
@@ -45,9 +43,7 @@ except Exception as e:
 # Load model
 # -----------------------------
 try:
-    with open(MODEL_PATH, "rb") as f:
-        model = pickle.load(f)
-    # Check type
+    model = joblib.load(MODEL_PATH)
     if not hasattr(model, "predict"):
         st.error("Loaded model is not a predictive model. Check your file.")
         st.stop()
@@ -98,7 +94,7 @@ if page == "Home Page":
         if comment.strip() == "":
             st.warning("Please enter some text first.")
         else:
-            # Transform input
+            # Transform input and predict
             comment_vector = vectorizer.transform([comment])
             sentiment = model.predict(comment_vector)[0]
 
