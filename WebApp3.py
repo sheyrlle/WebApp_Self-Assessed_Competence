@@ -28,8 +28,6 @@ if not os.path.exists(MODEL_PATH):
     st.info("Downloading model...")
     gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
 
-vectorizer = joblib.load(VECTOR_PATH)
-model = joblib.load(MODEL_PATH)
 
 try:
     vectorizer = joblib.load(VECTOR_PATH)
@@ -142,6 +140,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
