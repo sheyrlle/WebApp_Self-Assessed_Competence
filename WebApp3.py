@@ -1,10 +1,3 @@
-streamlit
-gdown
-scikit-learn
-numpy
-pandas
-joblib
-
 import streamlit as st
 import pandas as pd
 import joblib
@@ -133,6 +126,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
