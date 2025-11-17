@@ -36,6 +36,25 @@ if not os.path.exists(history_file):
     df_init = pd.DataFrame(columns=["Date", "Time", "Response", "Classification"])
     df_init.to_csv(history_file, index=False)
 
+try:
+    vectorizer = joblib.load(VECTOR_PATH)
+    if not hasattr(vectorizer, "transform"):
+        st.error("Loaded vectorizer is invalid!")
+        st.stop()
+except Exception as e:
+    st.error(f"Error loading vectorizer: {e}")
+    st.stop()
+
+#load model
+try:
+    model = joblib.load(MODEL_PATH)
+    if not hasattr(model, "predict"):
+        st.error("Loaded model is invalid!")
+        st.stop()
+except Exception as e:
+    st.error(f"Error loading model: {e}")
+    st.stop()
+
 with st.sidebar:
     # st.title("Controls")
     st.write("The app analyzes students’ competence in Python, Java, and C programming based on English-language sentiments.")
@@ -144,6 +163,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
