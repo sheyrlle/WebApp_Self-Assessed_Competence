@@ -10,10 +10,10 @@ import pickle
 VECTOR_PATH = "vectorizer.pkl"
 MODEL_PATH = "rf_model.pkl"
 
-VECTOR_FILE_ID = "19aoX8xUERWUKarzReoFKH7bHB6z13gYR"
-# https://drive.google.com/file/d/19aoX8xUERWUKarzReoFKH7bHB6z13gYR/view?usp=drive_link
-MODEL_FILE_ID = "1tHndbQPlIQ255ZIYDym0DxH66MKJo_zy"
-# https://drive.google.com/file/d/1tHndbQPlIQ255ZIYDym0DxH66MKJo_zy/view?usp=drive_link
+VECTOR_FILE_ID = "1PdTdJaCyULawJ_Nvo22Wy2t7hYe5Zmns"
+# https://drive.google.com/file/d/1PdTdJaCyULawJ_Nvo22Wy2t7hYe5Zmns/view?usp=drive_link
+MODEL_FILE_ID = "10YDoNv8PAYoy-Pp5Jp2c4B9653yny3-a"
+# https://drive.google.com/file/d/10YDoNv8PAYoy-Pp5Jp2c4B9653yny3-a/view?usp=drive_link
 
 # Convert to direct download URLs
 VECTOR_URL = f"https://drive.google.com/uc?id={VECTOR_FILE_ID}"
@@ -150,6 +150,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
