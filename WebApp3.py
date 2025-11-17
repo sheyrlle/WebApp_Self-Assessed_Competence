@@ -10,6 +10,9 @@ import pickle
 VECTOR_PATH = "vectorizer.pkl"
 MODEL_PATH = "rf_model.pkl"
 
+with open(VECTOR_PATH, "rb") as f:
+    vectorizer = pickle.load(f)
+
 VECTOR_FILE_ID = "1PdTdJaCyULawJ_Nvo22Wy2t7hYe5Zmns"
 # https://drive.google.com/file/d/1PdTdJaCyULawJ_Nvo22Wy2t7hYe5Zmns/view?usp=drive_link
 MODEL_FILE_ID = "10YDoNv8PAYoy-Pp5Jp2c4B9653yny3-a"
@@ -123,6 +126,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
