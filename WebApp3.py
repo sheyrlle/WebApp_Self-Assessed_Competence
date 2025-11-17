@@ -18,6 +18,9 @@ MODEL_FILE_ID = "10YDoNv8PAYoy-Pp5Jp2c4B9653yny3-a"
 # Convert to direct download URLs
 VECTOR_URL = f"https://drive.google.com/uc?id={VECTOR_FILE_ID}"
 MODEL_URL = f"https://drive.google.com/uc?id={MODEL_FILE_ID}"
+
+gdown.download(VECTOR_URL, "C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\vectorizer.pkl", quiet=False)
+gdown.download(MODEL_URL, "C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\rf_model.pkl", quiet=False)
     
 # model
  model = joblib.load("rf_model.pkl")
