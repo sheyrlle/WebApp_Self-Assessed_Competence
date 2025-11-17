@@ -65,6 +65,24 @@ if page == "Home Page":
 
     comment = st.text_area("Enter your sentiments about your competence in Python, Java, and C:")
 
+    try:
+    vectorizer = joblib.load("vectorizer.pkl")
+    if not hasattr(vectorizer, "transform"):
+        st.error("Vectorizer is invalid!")
+        st.stop()
+    except Exception as e:
+    st.error(f"Error loading vectorizer: {e}")
+    st.stop()
+
+    try:
+    model = joblib.load("rf_model.pkl")
+    if not hasattr(model, "predict"):
+        st.error("Model is invalid!")
+        st.stop()
+    except Exception as e:
+    st.error(f"Error loading model: {e}")
+    st.stop()
+
     if st.button("Analyze Sentiment"):
         if comment.strip() == "":
             st.warning("Please enter some text first.")
@@ -126,6 +144,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
