@@ -23,8 +23,8 @@ gdown.download(VECTOR_URL, "C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\vec
 gdown.download(MODEL_URL, "C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\rf_model.pkl", quiet=False)
     
 # model
- model = joblib.load("rf_model.pkl")
- vectorizer = joblib.load("vectorizer.pkl")
+model = joblib.load("rf_model.pkl")
+vectorizer = joblib.load("vectorizer.pkl")
 
 st.set_page_config(page_title="Sentiment Analysis", layout="wide")
         
@@ -126,6 +126,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
