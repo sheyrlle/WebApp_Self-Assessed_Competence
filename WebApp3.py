@@ -7,6 +7,9 @@ import os
 import gdown
 import pickle
 
+VECTOR_PATH = "vectorizer.pkl"
+MODEL_PATH = "rf_model.pkl"
+
 VECTOR_FILE_ID = "10YDoNv8PAYoy-Pp5Jp2c4B9653yny3-a"
 # https://drive.google.com/file/d/10YDoNv8PAYoy-Pp5Jp2c4B9653yny3-a/view?usp=drive_link
 MODEL_FILE_ID = "1PdTdJaCyULawJ_Nvo22Wy2t7hYe5Zmns"
@@ -127,5 +130,6 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
