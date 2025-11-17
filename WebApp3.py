@@ -30,17 +30,23 @@ if not os.path.exists(MODEL_PATH):
 
 
 try:
-    vectorizer = joblib.load(VECTOR_PATH)
-    model = joblib.load(MODEL_PATH)
+    # Load vectorizer
+    with open(VECTOR_PATH, "rb") as f:
+        vectorizer = pickle.load(f)
+    if not hasattr(vectorizer, "transform"):
+        st.error(f"Loaded object is not a vectorizer! Found type: {type(vectorizer)}")
+        st.stop()
+    else:
+        st.write(f"Vectorizer loaded successfully. Type: {type(vectorizer)}")
+
+    # Load model
+    with open(MODEL_PATH, "rb") as f:
+        model = pickle.load(f)
+    st.write(f"Model loaded successfully. Type: {type(model)}")
+
 except Exception as e:
     st.error(f"Error loading model/vectorizer: {e}")
-    st.stop() 
-
-if not hasattr(vectorizer, "transform"):
-    st.error(f"Loaded object is not a vectorizer! Found type: {type(vectorizer)}")
     st.stop()
-else:
-    st.write(f"Vectorizer loaded successfully. Type: {type(vectorizer)}")
 # model
 # model = joblib.load("C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\rf_model.pkl")
 # vectorizer = joblib.load("C:\\Users\\Sherylle Rose\\Desktop\\rfmodeloct26\\vectorizer.pkl")
@@ -145,6 +151,7 @@ elif page == "History":
             st.info("No sentiment history found yet.")
     else:
         st.info("No sentiment history file found yet.")
+
 
 
 
